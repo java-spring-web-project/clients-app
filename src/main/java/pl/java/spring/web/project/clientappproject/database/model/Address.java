@@ -1,14 +1,18 @@
-package pl.java.spring.web.project.clientappproject.database;
+package pl.java.spring.web.project.clientappproject.database.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="ADDRESS")
 public class Address {
 
     @Id
+    @Column(name = "address_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long addressId;
 
@@ -17,8 +21,13 @@ public class Address {
     private String city;
     private String zip;
 
+    @Column(name = "home_number")
     private int homeNumber;
-    private int appartmentNumber;
+
+    @Column(name = "apartment_number")
+    private int apartmentNumber;
+
+
 
     public long getAddressId() {
         return addressId;
@@ -68,11 +77,11 @@ public class Address {
         this.homeNumber = homeNumber;
     }
 
-    public int getAppartmentNumber() {
-        return appartmentNumber;
+    public int getApartmentNumber() {
+        return apartmentNumber;
     }
 
-    public void setAppartmentNumber(int appartmentNumber) {
-        this.appartmentNumber = appartmentNumber;
+    public void setApartmentNumber(int apartmentNumber) {
+        this.apartmentNumber = apartmentNumber;
     }
 }
