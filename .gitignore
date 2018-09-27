@@ -82,3 +82,6 @@ fabric.properties
 
 
 # End of https://www.gitignore.io/api/intellij
+
+#don't track target directory
+target/
