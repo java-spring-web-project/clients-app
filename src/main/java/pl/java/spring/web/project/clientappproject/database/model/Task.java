@@ -1,13 +1,23 @@
-package pl.java.spring.web.project.clientappproject.database;
+package pl.java.spring.web.project.clientappproject.database.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
+@Table(name = "TASK")
 public class Task {
+
     @Id
+    @Column(name = "task_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long taskId;
 
@@ -18,7 +28,9 @@ public class Task {
     private int priority;
 
     @ManyToMany(mappedBy = "tasks")
-        private Collection<Employee> employees = new ArrayList<>();
+    private Collection<Employee> employees = new ArrayList<>();
+
+
 
     public long getTaskId() {
         return taskId;
