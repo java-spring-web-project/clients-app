@@ -1,6 +1,7 @@
 package pl.java.spring.web.project.clientappproject.login.controller;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,10 +35,10 @@ public class UserValidatorTest {
         userValidator.validate(invalidUser, errors);
 
         FieldError usernameFieldError = errors.getFieldError("username");
-        assertEquals("username", usernameFieldError.getField());
+        assertThat("username", is(usernameFieldError.getField()));
 
         List<String> errorCodes = Arrays.asList(usernameFieldError.getCodes());
-        assertEquals(4, errorCodes.size());
+        assertThat(4, is(errorCodes.size()));
         assertTrue(errorCodes.contains("NotEmpty.invalidUser.username"));
         assertTrue(errorCodes.contains("NotEmpty.username"));
         assertTrue(errorCodes.contains("NotEmpty.java.lang.String"));
@@ -56,18 +57,18 @@ public class UserValidatorTest {
         userValidator.validate(invalidUser, errors);
 
         FieldError passwordFieldError = errors.getFieldError("password");
-        assertEquals("password", passwordFieldError.getField());
+        assertThat("password", is(passwordFieldError.getField()));
         List<String> passwordErrorCodes = Arrays.asList(passwordFieldError.getCodes());
-        assertEquals(4, passwordErrorCodes.size());
+        assertThat(4, is(passwordErrorCodes.size()));
         assertTrue(passwordErrorCodes.contains("NotEmpty.invalidUser.password"));
         assertTrue(passwordErrorCodes.contains("NotEmpty.password"));
         assertTrue(passwordErrorCodes.contains("NotEmpty.java.lang.String"));
         assertTrue(passwordErrorCodes.contains("NotEmpty"));
 
         FieldError passwordConfirmFieldError = errors.getFieldError("passwordConfirm");
-        assertEquals("passwordConfirm", passwordConfirmFieldError.getField());
+        assertThat("passwordConfirm", is(passwordConfirmFieldError.getField()));
         List<String> passwordConfirmErrorCodes = Arrays.asList(passwordConfirmFieldError.getCodes());
-        assertEquals(4, passwordConfirmErrorCodes.size());
+        assertThat(4, is(passwordConfirmErrorCodes.size()));
         assertTrue(passwordConfirmErrorCodes.contains("NotEmpty.invalidUser.passwordConfirm"));
         assertTrue(passwordConfirmErrorCodes.contains("NotEmpty.passwordConfirm"));
         assertTrue(passwordConfirmErrorCodes.contains("NotEmpty.java.lang.String"));
@@ -86,18 +87,18 @@ public class UserValidatorTest {
         userValidator.validate(invalidUser, errors);
 
         FieldError passwordFieldError = errors.getFieldError("passwordConfirm");
-        assertEquals("passwordConfirm", passwordFieldError.getField());
+        assertThat("passwordConfirm", is(passwordFieldError.getField()));
         List<String> passwordErrorCodes = Arrays.asList(passwordFieldError.getCodes());
-        assertEquals(4, passwordErrorCodes.size());
+        assertThat(4, is(passwordErrorCodes.size()));
         assertTrue(passwordErrorCodes.contains("Diff.userForm.password.invalidUser.passwordConfirm"));
         assertTrue(passwordErrorCodes.contains("Diff.userForm.password.passwordConfirm"));
         assertTrue(passwordErrorCodes.contains("Diff.userForm.password.java.lang.String"));
         assertTrue(passwordErrorCodes.contains("Diff.userForm.password.passwordConfirm"));
 
         FieldError passwordConfirmFieldError = errors.getFieldError("passwordConfirm");
-        assertEquals("passwordConfirm", passwordConfirmFieldError.getField());
+        assertThat("passwordConfirm", is(passwordConfirmFieldError.getField()));
         List<String> passwordConfirmErrorCodes = Arrays.asList(passwordConfirmFieldError.getCodes());
-        assertEquals(4, passwordConfirmErrorCodes.size());
+        assertThat(4, is(passwordConfirmErrorCodes.size()));
         assertTrue(passwordConfirmErrorCodes.contains("Diff.userForm.passwordConfirm.invalidUser.passwordConfirm"));
         assertTrue(passwordConfirmErrorCodes.contains("Diff.userForm.passwordConfirm.passwordConfirm"));
         assertTrue(passwordConfirmErrorCodes.contains("Diff.userForm.passwordConfirm.java.lang.String"));
@@ -116,9 +117,9 @@ public class UserValidatorTest {
         userValidator.validate(invalidUser, errors);
 
         FieldError usernameFieldError = errors.getFieldError("username");
-        assertEquals("username", usernameFieldError.getField());
+        assertThat("username", is(usernameFieldError.getField()));
         List<String> usernameErrorCodes = Arrays.asList(usernameFieldError.getCodes());
-        assertEquals(4, usernameErrorCodes.size());
+        assertThat(4, is(usernameErrorCodes.size()));
 
         assertTrue(usernameErrorCodes.contains("Size.userForm.username.invalidUser.username"));
         assertTrue(usernameErrorCodes.contains("Size.userForm.username"));
@@ -148,9 +149,9 @@ public class UserValidatorTest {
         userValidator.validate(invalidUser, errors);
 
         FieldError usernameFieldError = errors.getFieldError("username");
-        assertEquals("username", usernameFieldError.getField());
+        assertThat("username", is(usernameFieldError.getField()));
         List<String> usernameErrorCodes = Arrays.asList(usernameFieldError.getCodes());
-        assertEquals(4, usernameErrorCodes.size());
+        assertThat(4, is(usernameErrorCodes.size()));
 
         assertTrue(usernameErrorCodes.contains("Size.userForm.username.invalidUser.username"));
         assertTrue(usernameErrorCodes.contains("Size.userForm.username"));

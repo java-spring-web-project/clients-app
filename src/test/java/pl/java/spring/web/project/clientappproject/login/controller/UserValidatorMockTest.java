@@ -1,13 +1,16 @@
 package pl.java.spring.web.project.clientappproject.login.controller;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
+import static org.hamcrest.CoreMatchers.is;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -27,24 +30,29 @@ public class UserValidatorMockTest {
     @Mock
     private UserService userServiceMock;
 
+    @Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+    }
+
     @Test
     public void userAlreadyExists() {
         when(userServiceMock.findByUsername("faplllosss")).thenReturn(new User());
 
-        User invalidUser = new User();
-        invalidUser.setId(1L);
-        invalidUser.setUsername("faplllosss");
-        invalidUser.setPassword("faplllosss123");
-        invalidUser.setPasswordConfirm("faplllosss123");
+        User duplicateUser = new User();
+        duplicateUser.setId(1L);
+        duplicateUser.setUsername("faplllosss");
+        duplicateUser.setPassword("faplllosss123");
+        duplicateUser.setPasswordConfirm("faplllosss123");
 
-        Errors errors = new BeanPropertyBindingResult(invalidUser, "invalidUser");
-        userValidator.validate(invalidUser, errors);
+        Errors errors = new BeanPropertyBindingResult(duplicateUser, "duplicateUser");
+        userValidator.validate(duplicateUser, errors);
 
         FieldError usernameFieldError = errors.getFieldError("username");
-        assertEquals("username", usernameFieldError.getField());
+        assertThat("username", is(usernameFieldError.getField()));
         List<String> errorCodes = Arrays.asList(usernameFieldError.getCodes());
-        assertEquals(4, errorCodes.size());
-        assertTrue(errorCodes.contains("Duplicate.userForm.username.invalidUser.username"));
+        assertThat(4, is(errorCodes.size()));
+        assertTrue(errorCodes.contains("Duplicate.userForm.username.duplicateUser.username"));
         assertTrue(errorCodes.contains("Duplicate.userForm.username.username"));
         assertTrue(errorCodes.contains("Duplicate.userForm.username.java.lang.String"));
         assertTrue(errorCodes.contains("Duplicate.userForm.username"));
