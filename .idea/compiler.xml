@@ -9,5 +9,8 @@
         <module name="client-app-project" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="client-app-project" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

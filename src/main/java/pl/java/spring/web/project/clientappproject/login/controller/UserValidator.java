@@ -38,4 +38,13 @@ public class UserValidator implements Validator {
             errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
         }
     }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
 }
