@@ -1,57 +1,70 @@
 package pl.java.spring.web.project.clientappproject.database.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.java.spring.web.project.clientappproject.database.model.Task;
-import pl.java.spring.web.project.clientappproject.database.service.TaskService;
+import pl.java.spring.web.project.clientappproject.database.repository.TaskRepository;
 
+import javax.persistence.EntityNotFoundException;
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/task")
 public class TaskController {
 
     @Autowired
-    private TaskService taskService;
+    private TaskRepository taskRepository;
 
-
-    @GetMapping("/list")
-    public String list(Model model) {
-        List<Task> tasks = taskService.getTasks();
-        model.addAttribute("tasks", tasks);
-
-        return "list-tasks";
+    @GetMapping("/")
+    public List<Task> retrieveAllTasks() {
+        return taskRepository.findAll();
     }
 
-    @GetMapping("/new-task")
-    public String newTask(Model model) {
-        model.addAttribute("task", new Task());
-        return "task-form";
+    @GetMapping("/{id}")
+    public Task retrieveTask(@PathVariable long id) {
+
+        Optional<Task> task = taskRepository.findById(id);
+
+        if (!task.isPresent()) {
+            throw new EntityNotFoundException();//TODO: find more suitable exception
+        }
+
+        return task.get();
     }
 
-    @GetMapping("/add-task")
-    public String addTask(@ModelAttribute("task") Task task) {
-        taskService.addTask(task);
-
-        return "redirect:/task/list-task";
+    @DeleteMapping("/{id}")
+    public void deleteTask(@PathVariable long id) {
+        taskRepository.deleteById(id);
     }
 
-    @GetMapping("/view-task")
-    public String viewTask(@RequestParam("taskId") int taskId, Model model) {
-        Task task = taskService.getTask(taskId);
+    @PostMapping("/")
+    public ResponseEntity<Object> addTask(@RequestBody Task task) {
 
-        return "task-form";
+        Task savedTask = taskRepository.save(task);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{$id}")
+                .buildAndExpand(savedTask.getTaskId()).toUri();
+
+        return ResponseEntity.created(location).build();
     }
 
-    @GetMapping("/delete-task")
-    public String deleteTask(@RequestParam("taskId") int taskId, Model model) {
-        taskService.deleteTask(taskId);
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateTask(@RequestBody Task task, @PathVariable long id) {
 
-        return "redirect:/task/list-task";
+        Optional<Task> taskOptional = taskRepository.findById(id);
+
+        if (!taskOptional.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        task.setTaskId(id);
+
+        taskRepository.save(task);
+
+        return ResponseEntity.noContent().build();
     }
 }
